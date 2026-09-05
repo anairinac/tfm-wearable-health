@@ -112,6 +112,7 @@ dependencies:
   - sqlite=3.53.2
   - stack_data=0.6.3
   - threadpoolctl=3.6.0
+  - xgboost=3.2.0
   - tk=8.6.15
   - tornado=6.5.5
   - traitlets=5.15.1
