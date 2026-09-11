@@ -78,8 +78,8 @@ dependencies:
   - ncurses=6.5
   - nest-asyncio2=1.7.2
   - numexpr=2.14.1
-  - numpy=1.23.5
-  - numpy-base=1.23.5
+  - numpy=2.4.6
+  - numpy-base=2.4.6
   - openssl=3.6.3
   - packaging=26.0
   - pandas=2.3.3
