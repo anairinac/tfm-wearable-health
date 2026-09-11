@@ -16,7 +16,7 @@
                 "iam:TagRole",
                 "iam:UntagRole"
            ],
-              "Resource": "arn::aws:iam::632103768281:role/tfm-wearable-health-*"
+              "Resource": "arn:aws:iam::632103768281:role/tfm-wearable-health-*"
         },
         {
             "Sid": "UseTFState",
@@ -59,6 +59,9 @@
                 "ecr:BatchCheckLayerAvailability",
                 "ecr:GetDownloadUrlForLayer",
                 "ecr:BatchGetImage",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetRepositoryPolicy",
+                "ecr:SetRepositoryPolicy",
                 "ecr:InitiateLayerUpload",
                 "ecr:UploadLayerPart",
                 "ecr:CompleteLayerUpload",
@@ -98,7 +101,7 @@
             "Sid": "UseAPIGW",
             "Effect": "Allow",
             "Action": "apigateway:*",
-            "Resource": "arn:aws:apigateway:us-east-2::/apis/*"
+            "Resource": "arn:aws:apigateway:us-east-2::/*"
         }
     ]
 }
