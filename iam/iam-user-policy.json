@@ -1,0 +1,104 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+           "Sid": "AllowIAM",
+           "Effect": "Allow",
+           "Action": [
+                "iam:GetRole*",
+                "iam:CreateRole",
+                "iam:DeleteRole*",
+                "iam:PutRolePolicy",
+                "iam:AttachRole*",
+                "iam:DetachRole*",
+                "iam:PassRole",
+                "iam:List*",
+                "iam:TagRole",
+                "iam:UntagRole"
+           ],
+              "Resource": "arn::aws:iam::632103768281:role/tfm-wearable-health-*"
+        },
+        {
+            "Sid": "UseTFState",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::anairinac1",
+                "arn:aws:s3:::anairinac1/tfm-wearable-health/*"
+            ]
+        },
+        {
+            "Sid": "UseTFLockTable",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:DeleteItem"
+            ],
+            "Resource": "arn:aws:dynamodb:us-east-1:632103768281:table/tfm-wearable-health-tflock"
+        },
+        {
+            "Sid": "UseECR",
+            "Effect": "Allow",
+            "Action": [
+                "ecr:CreateRepo*",
+                "ecr:DeleteRepository",
+                "ecr:DescribeRepositories",
+                "ecr:PutLifecyclePolicy",
+                "ecr:GetLifecyclePolicy",
+                "ecr:ListImages",
+                "ecr:DeleteLifecyclePolicy",
+                "ecr:ListTagsForResource",
+                "ecr:TagResource",
+                "ecr:UntagResource",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+                "ecr:InitiateLayerUpload",
+                "ecr:UploadLayerPart",
+                "ecr:CompleteLayerUpload",
+                "ecr:PutImage"
+            ],
+            "Resource": "arn:aws:ecr:us-east-2:632103768281:repository/tfm-wearable-health-lambda"
+        },
+        {
+            "Sid": "AuthECR",
+            "Effect": "Allow",
+            "Action": [
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*" 
+        },
+        {
+            "Sid": "UseLambda",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:CreateFunction",
+                "lambda:DeleteFunction",
+                "lambda:GetFunction*",
+                "lambda:UpdateFunction*",
+                "lambda:ListVersionsByFunction",
+                "lambda:PublishVersion",
+                "lambda:ListTags",
+                "lambda:TagResource",
+                "lambda:UntagResource",
+                "lambda:AddPermission",
+                "lambda:RemovePermission",
+                "lambda:GetPolicy",
+                "lambda:InvokeFunction"
+            ],
+            "Resource": "arn:aws:lambda:us-east-2:632103768281:function:*"
+        },
+        {
+            "Sid": "UseAPIGW",
+            "Effect": "Allow",
+            "Action": "apigateway:*",
+            "Resource": "arn:aws:apigateway:us-east-2::/apis/*"
+        }
+    ]
+}

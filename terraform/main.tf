@@ -1,9 +1,17 @@
 terraform {
-  required_version = "= 1.5"
+  required_version = "~> 1.6"
+
+  backend "s3" {
+    bucket  =   "${var.bucket_name}"
+    key     =   "${var.project_name}/terraform.tfstate"
+    region  =   "${var.aws_region}"
+    dynamodb_table = "${var.project_name}-tflock"
+    encrypt = true
+  }
 
   required_providers {
     aws = {
-        source  = "hasicorp/aws",
+        source  = "hashicorp/aws"
         version = "~> 5.0"
     }
   }
@@ -27,7 +35,7 @@ resource "aws_ecr_lifecycle_policy" "tfm-repository-policy" {
     policy = jsonencode({
         rules = [{
             rulePriority    =   1
-            description     =   "Keep the last 3 dockeri mages"
+            description     =   "Keep the last 3 docker images"
             selection       =   {
                 tagStatus   =   "any"
                 countType   =   "imageCountMoreThan"
