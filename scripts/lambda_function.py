@@ -19,7 +19,7 @@ def handler(event, context):
         "numpy": np.__version__,
         "pandas": pd.__version__,
         "sklearn": sklearn.__version__,
-        "xgboost": xgboost.__version
+        "xgboost": xgboost.__version__
     }
     return {
         "statusCode": 200,
