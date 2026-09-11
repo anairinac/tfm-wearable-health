@@ -1,11 +1,11 @@
 terraform {
-  required_version = "~> 1.6"
+  required_version = "~> 1.16"
 
   backend "s3" {
-    bucket  =   "${var.bucket_name}"
-    key     =   "${var.project_name}/terraform.tfstate"
-    region  =   "${var.aws_region}"
-    dynamodb_table = "${var.project_name}-tflock"
+    bucket  =   "anairinac1"
+    key     =   "tfm-wearable-health/terraform.tfstate"
+    region  =   "us-east-1"
+    dynamodb_table = "tfm-wearable-health-tflock"
     encrypt = true
   }
 
