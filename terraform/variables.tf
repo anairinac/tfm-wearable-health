@@ -15,3 +15,9 @@ variable "bucket_name"{
     type        = string
     default     = "anairinac1"
 }
+
+variable "aws_account_id" {
+    description = "AWS account ID"
+    type        = string
+    default     = "632103768281"
+}

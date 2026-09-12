@@ -20,10 +20,11 @@ resource "aws_iam_role_policy_attachment" "tfm-wearable-health-lambda-policy" {
 }
 
 resource "aws_lambda_function" "tfm-wearable-health-lambda" {
-    function_name   =   "${var.project_name}-lambda"
+    for_each = toset(local.environments)
+    function_name   =   "${var.project_name}-lambda-${each.key}"
     role            =   aws_iam_role.tfm-wearable-health-lambda-role.arn
     package_type    =   "Image"
-    image_uri       =   "${aws_ecr_repository.tfm-repository.repository_url}:latest"
+    image_uri       =   "${aws_ecr_repository.tfm-repository.repository_url}:${each.key}"
     architectures   =   ["arm64"]
     timeout         =   30
     memory_size     =   512
@@ -32,4 +33,3 @@ resource "aws_lambda_function" "tfm-wearable-health-lambda" {
         aws_iam_role_policy_attachment.tfm-wearable-health-lambda-policy
     ]
 }
-
