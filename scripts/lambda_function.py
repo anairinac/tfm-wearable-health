@@ -10,9 +10,15 @@ import numpy as np
 import pandas as pd
 import sklearn
 import xgboost
-# import pickle
+import pickle
 import json
+from sklearn.pipeline import Pipeline
+from data_cleanup import build_features
+from risk_scoring import calculate_risk_score
 
+def load_pipeline(target_name: str) -> Pipeline:
+    with open(f"models/{target_name}_pipeline.pkl", "rb") as model_file:
+        return pickle.load(model_file)
 
 def handler(event, context):
     versions = {
@@ -21,11 +27,10 @@ def handler(event, context):
         "sklearn": sklearn.__version__,
         "xgboost": xgboost.__version__
     }
+    return build_response(200, versions)
+
+def build_response(status_code: int, body: dict) -> dict:
     return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "ok": True,
-            "versions": versions,
-            "event": event
-        })
+        "statusCode": status_code,
+        "body": json.dumps(body)
     }
