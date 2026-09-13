@@ -2,6 +2,7 @@
 Function to prepare data received from the wearables reaching the API
 for consumption by the models
 """
+import pandas as pd
 
 NO_INCAP = 0
 
