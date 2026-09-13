@@ -67,7 +67,7 @@ PREPROCESS = {
 targets = [
     {
         "name": "y_lesion_deportiva",
-        "model": XGBoost.XBGClassifier,
+        "model": XGBoost.XGBClassifier,
         "params": {
         }
     },
@@ -103,6 +103,7 @@ def train_best_model(target_name, preprocessor, X_train, y_train):
         ("model", model)
     ])
     pipeline.fit(X_train.loc[notna_mask], y_train.loc[notna_mask, target_name])
+    return pipeline
 
 def main():
     X_train = pd.read_parquet(X_TRAIN_PATH)
@@ -117,10 +118,9 @@ def main():
 
     for target in targets:
         pipeline = train_best_model(target["name"], preprocessor, X_train, y_train)
-        with open(f"models/{target.name}_pipeline.pkl", "wb") as model_file:
+        with open(f"models/{target['name']}_pipeline.pkl", "wb") as model_file:
             pickle.dump(pipeline, model_file)
-        print(f"{target.name} serialized in models/{target.name}_pipeline.pkl")
-
+        print(f"{target['name']} serialized in models/{target['name']}_pipeline.pkl")
 
 if __name__ == "__main__":
     main()
