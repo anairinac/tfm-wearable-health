@@ -1,0 +1,3 @@
+locals {
+    environments = ["dev", "prod"]
+}

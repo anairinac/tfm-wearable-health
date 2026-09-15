@@ -1,0 +1,98 @@
+name: Deploy TFM Wearable Health API
+
+on:
+  push:
+    branches: [develop, main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: tfm-deploy-${{ github.ref_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  PROJECT_NAME: tfm-wearable-health
+  AWS_ACCOUNT_ID: 632103768281
+  AWS_REGION: us-east-2
+  ECR_REPOSITORY: tfm-wearable-health-lambda
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Decide environment
+        id: target-env
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+            echo "env=prod" >> "$GITHUB_OUTPUT"
+          else
+            echo "env=dev" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up QEMU (arm64 emulation)
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/arm64
+          push: true
+          tags: |
+            ${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ steps.target-env.outputs.env }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.16.0
+
+      - name: Terraform init
+        working-directory: terraform
+        run: terraform init -input=false
+
+      - name: Terraform apply
+        working-directory: terraform
+        run: terraform apply -auto-approve -input=false
+
+      - name: Update Lambda image for env
+        run: |
+          aws lambda update-function-code \
+            --function-name "${{ env.PROJECT_NAME }}-lambda-${{ steps.target-env.outputs.env }}" \
+            --image-uri "${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ steps.target-env.outputs.env }}"
+
+      - name: Wait for Lambda to be ready
+        run: |
+          aws lambda wait function-updated-v2 \
+            --function-name "${{ env.PROJECT_NAME }}-lambda-${{ steps.target-env.outputs.env }}"
+
+      - name: Smoke test the deployed endpoint
+        working-directory: terraform
+        run: |
+          ENDPOINT=$(terraform output -raw apigw_${{ steps.target-env.outputs.env }}_endpoint)
+          echo "Testing $ENDPOINT/predict"
+          curl -sf -XPOST "$ENDPOINT/predict" \
+            -H "Content-Type application/json" \
+            -d '{"SEX_A": 2,"AGE": 34,"HEIGHT": 165,"HEIGHT_UNIT": "cm","WEIGHT": 68,"SLPHOURS": 7,"DEPEV": 2,"ANXEV": 2,"ASEV": 2,"MODMIN": 30,"MODFREQ": 4,"VIGMIN": 0,"VIGFREQ": 0,"STRFREQ": 2,}' \
+            | tee /tmp/smoke.json
+          grep -q '"risk_score"' /tmp/smoke.json
