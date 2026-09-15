@@ -23,7 +23,7 @@ pipeline_respiratorio = load_pipeline("y_respiratorio")
 
 def handler(event, context):
     try:
-        body = json.loads(event.get("body") or {})
+        body = json.loads(event.get("body") or "{}")
     except json.JSONDecodeError:
         return build_response(400, {"error": "Invalid JSON body on request"})
 

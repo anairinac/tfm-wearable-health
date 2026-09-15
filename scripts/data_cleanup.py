@@ -53,16 +53,16 @@ def build_features(raw_data: dict) -> dict:
 
     return {
         # General
-        "SEX_A": raw_data["SEX_A"],
+        "SEX_A": float(raw_data["SEX_A"]),
         "AGEP_A": float(raw_data["AGE"]),
         "HEIGHT_CM": float(convert_height_in_to_cm(raw_data["HEIGHT"], raw_data["HEIGHT_UNIT"])),
         "WEIGHT_A": float(raw_data["WEIGHT"]), # el pipeline no la usa, es para recordar que debo pedir WEIGHT
-        "BMICAT_A": calc_bmi(raw_data["WEIGHT"], convert_height_in_to_cm(raw_data["HEIGHT"], raw_data["HEIGHT_UNIT"])),
+        "BMICAT_A": float(calc_bmi(raw_data["WEIGHT"], convert_height_in_to_cm(raw_data["HEIGHT"], raw_data["HEIGHT_UNIT"]))),
         "SLPHOURS_A": float(raw_data["SLPHOURS"]),
         # Diagnostics
-        "DEPEV_A": raw_data["DEPEV"],
-        "ANXEV_A": raw_data["ANXEV"],
-        "ASEV_A": raw_data["ASEV"],
+        "DEPEV_A": float(raw_data["DEPEV"]),
+        "ANXEV_A": float(raw_data["ANXEV"]),
+        "ASEV_A": float(raw_data["ASEV"]),
         # Activity
         "MODMIN_A": float(raw_data["MODMIN"]),
         "VIGMIN_A": float(raw_data["VIGMIN"]),
