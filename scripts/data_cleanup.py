@@ -54,23 +54,23 @@ def build_features(raw_data: dict) -> dict:
     return {
         # General
         "SEX_A": raw_data["SEX_A"],
-        "AGEP_A": raw_data["AGE"],
-        "HEIGHT_CM": convert_height_in_to_cm(raw_data["HEIGHT"], raw_data["HEIGHT_UNIT"]),
-        "WEIGHT_A": raw_data["WEIGHT"], # el pipeline no la usa, es para recordar que debo pedir WEIGHT
+        "AGEP_A": float(raw_data["AGE"]),
+        "HEIGHT_CM": float(convert_height_in_to_cm(raw_data["HEIGHT"], raw_data["HEIGHT_UNIT"])),
+        "WEIGHT_A": float(raw_data["WEIGHT"]), # el pipeline no la usa, es para recordar que debo pedir WEIGHT
         "BMICAT_A": calc_bmi(raw_data["WEIGHT"], convert_height_in_to_cm(raw_data["HEIGHT"], raw_data["HEIGHT_UNIT"])),
-        "SLPHOURS_A": raw_data["SLPHOURS"],
+        "SLPHOURS_A": float(raw_data["SLPHOURS"]),
         # Diagnostics
         "DEPEV_A": raw_data["DEPEV"],
         "ANXEV_A": raw_data["ANXEV"],
         "ASEV_A": raw_data["ASEV"],
         # Activity
-        "MODMIN_A": raw_data["MODMIN"],
-        "VIGMIN_A": raw_data["VIGMIN"],
-        "MODFREQW_A": raw_data["MODFREQ"],
-        "VIGFREQW_A": raw_data["VIGFREQ"],
-        "STRFREQW_A": raw_data["STRFREQ"],
-        "MODMIN_WEEKLY": mod_weekly,
-        "VIGMIN_WEEKLY": vig_weekly,
+        "MODMIN_A": float(raw_data["MODMIN"]),
+        "VIGMIN_A": float(raw_data["VIGMIN"]),
+        "MODFREQW_A": float(raw_data["MODFREQ"]),
+        "VIGFREQW_A": float(raw_data["VIGFREQ"]),
+        "STRFREQW_A": float(raw_data["STRFREQ"]),
+        "MODMIN_WEEKLY": float(mod_weekly),
+        "VIGMIN_WEEKLY": float(vig_weekly),
         "MOD_LEVEL": calc_activity_level(mod_weekly, 'mod'),
         "VIG_LEVEL": calc_activity_level(vig_weekly, 'vig'),
         "CANT_MODFREQW_A": NO_INCAP,
