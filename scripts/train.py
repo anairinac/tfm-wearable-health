@@ -69,12 +69,12 @@ targets = [
         "name": "y_lesion_deportiva",
         "model": XGBoost.XGBClassifier,
         "params": {
-            "class_weight": None,
-            "criterion": "entropy",
-            "max_depth": 5,
-            "max_features": 8,
-            "min_sample_leaf": 4,
-            "n_estimators": 350
+            "colsample_bytree": 1.0,
+            "learning_rate": 0.005,
+            "max_depth": 3,
+            "n_estimators": 100,
+            "scale_pos_weight": 1,
+            "subsample": 0.3
         }
     },
     {
@@ -91,8 +91,14 @@ targets = [
     },
     {
         "name": "y_respiratorio",
-        "model": RandomForestClassifier,
+        "model": XGBoost.XGBClassifier,
         "params": {
+            "colsample_bytree": 0.8,
+            "learning_rate": 0.01,
+            "max_depth": 3,
+            "n_estimators": 300,
+            "scale_pos_weight": 1,
+            "subsample": 0.2
         }
     }
 ]
