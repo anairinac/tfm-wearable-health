@@ -2,6 +2,7 @@
 """
 
 import pandas as pd
+import os
 import pickle
 import xgboost as XGBoost
 from sklearn.pipeline import Pipeline
@@ -10,8 +11,8 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, RobustScaler, OneHotEncoder, OrdinalEncoder
 from sklearn.impute import SimpleImputer
 
-X_TRAIN_PATH = "data/processed/X_train.parquet"
-Y_TRAIN_PATH = "data/processed/Y_TRAIN.parquet"
+X_TRAIN_PATH = "../data/processed/X_train.parquet"
+Y_TRAIN_PATH = "../data/processed/y_train.parquet"
 random_seed = 42
 
 
@@ -130,6 +131,7 @@ def main():
 
     for target in targets:
         pipeline = train_best_model(target["name"], preprocessor, X_train, y_train)
+        os.makedirs("models", exist_ok=True)
         with open(f"models/{target['name']}_pipeline.pkl", "wb") as model_file:
             pickle.dump(pipeline, model_file)
         print(f"{target['name']} serialized in models/{target['name']}_pipeline.pkl")
