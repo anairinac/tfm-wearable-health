@@ -69,6 +69,12 @@ targets = [
         "name": "y_lesion_deportiva",
         "model": XGBoost.XGBClassifier,
         "params": {
+            "class_weight": None,
+            "criterion": "entropy",
+            "max_depth": 5,
+            "max_features": 8,
+            "min_sample_leaf": 4,
+            "n_estimators": 350
         }
     },
     {
