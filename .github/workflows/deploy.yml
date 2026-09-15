@@ -59,6 +59,8 @@ jobs:
           context: .
           platforms: linux/arm64
           push: true
+          provenance: false
+          sbom: false
           tags: |
             ${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ steps.target-env.outputs.env }}
 
