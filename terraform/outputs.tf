@@ -3,7 +3,12 @@ output "ecr_repository_url" {
     value = aws_ecr_repository.tfm-repository.repository_url
 }
 
-output "apigw_endpoint" {
+output "apigw_dev_endpoint" {
     description = "API Gateway endpoint for the Lambda function"
-    value = aws_apigatewayv2_stage.tfm-wearable-health-stage.invoke_url
+    value = aws_apigatewayv2_stage.tfm-wearable-health-stage["dev"].invoke_url
+}
+
+output "apigw_prod_endpoint" {
+    description = "API Gateway endpoint for the Lambda function"
+    value = aws_apigatewayv2_stage.tfm-wearable-health-stage["prod"].invoke_url
 }
