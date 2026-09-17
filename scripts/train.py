@@ -70,36 +70,29 @@ targets = [
         "name": "y_lesion_deportiva",
         "model": XGBoost.XGBClassifier,
         "params": {
-            "colsample_bytree": 1.0,
-            "learning_rate": 0.005,
+            "learning_rate": 0.01,
             "max_depth": 3,
-            "n_estimators": 100,
-            "scale_pos_weight": 1,
-            "subsample": 0.3
+            "n_estimators": 300,
+            "scale_pos_weight": 25.6,
+            "eval_metric": "logloss"
         }
     },
     {
         "name": "y_malestar_psicologico",
         "model": RandomForestClassifier,
         "params": {
-            "max_depth": 16,
-            "n_estimators": 300,
-            "min_samples_leaf": 3,
-            "max_features": 9,
-            "criterion": "gini",
+            "max_depth": 10,
+            "n_estimators": 200,
             "class_weight": "balanced"
         }
     },
     {
         "name": "y_respiratorio",
-        "model": XGBoost.XGBClassifier,
+        "model": RandomForestClassifier,
         "params": {
-            "colsample_bytree": 0.8,
-            "learning_rate": 0.01,
-            "max_depth": 3,
+            "max_depth": 5,
             "n_estimators": 300,
-            "scale_pos_weight": 1,
-            "subsample": 0.2
+            "class_weight": {0.0: 1, 1.0: 2.9}
         }
     }
 ]
