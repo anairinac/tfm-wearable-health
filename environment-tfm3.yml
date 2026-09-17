@@ -78,8 +78,8 @@ dependencies:
   - ncurses=6.5
   - nest-asyncio2=1.7.2
   - numexpr=2.14.1
-  - numpy=1.23.5
-  - numpy-base=1.23.5
+  - numpy=2.4.6
+  - numpy-base=2.4.6
   - openssl=3.6.3
   - packaging=26.0
   - pandas=2.3.3
@@ -112,6 +112,7 @@ dependencies:
   - sqlite=3.53.2
   - stack_data=0.6.3
   - threadpoolctl=3.6.0
+  - xgboost=3.2.0
   - tk=8.6.15
   - tornado=6.5.5
   - traitlets=5.15.1
@@ -129,3 +130,4 @@ dependencies:
     - "svy[report]"
     - polars==1.43.2
     - pyarrow==25.0.1
+    - iterative-stratification==0.1.9
