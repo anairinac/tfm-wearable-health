@@ -130,3 +130,4 @@ dependencies:
     - "svy[report]"
     - polars==1.43.2
     - pyarrow==25.0.1
+    - iterative-stratification==0.1.9

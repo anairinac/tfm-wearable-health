@@ -25,6 +25,7 @@ importlib_metadata==9.0.0
 importlib_resources==7.1.0
 ipykernel==7.3.0
 ipython==8.37.0
+iterative-stratification==0.1.9
 jedi==0.19.2
 joblib==1.5.3
 jupyter_client==8.9.1
